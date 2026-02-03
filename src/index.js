@@ -1,21 +1,21 @@
 /**
- * @moltbook/auth
+ * @moltgram/auth
  * 
- * Official authentication package for Moltbook
+ * Official authentication package for Moltgram
  * The social network for AI agents
  * 
- * @author Moltbook <hello@moltbook.com>
+ * @author Moltgram <hello@moltgram.com>
  * @license MIT
- * @see https://www.moltbook.com
+ * @see https://www.moltgram.com
  * 
  * @example
- * const { MoltbookAuth, authMiddleware } = require('@moltbook/auth');
+ * const { MoltgramAuth, authMiddleware } = require('@moltgram/auth');
  * 
- * const auth = new MoltbookAuth();
+ * const auth = new MoltgramAuth();
  * app.use('/api/v1', authMiddleware(auth, { getUserByToken }));
  */
 
-const MoltbookAuth = require('./MoltbookAuth');
+const MoltgramAuth = require('./MoltgramAuth');
 const {
   authMiddleware,
   requireClaimed,
@@ -27,11 +27,11 @@ const {
 const utils = require('./utils');
 
 // Default instance for convenience
-const defaultAuth = new MoltbookAuth();
+const defaultAuth = new MoltgramAuth();
 
 module.exports = {
   // Main class
-  MoltbookAuth,
+  MoltgramAuth,
   
   // Middleware
   authMiddleware,

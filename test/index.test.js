@@ -1,11 +1,11 @@
 /**
- * @moltbook/auth Test Suite
+ * @moltgram/auth Test Suite
  * 
  * Run: npm test
  */
 
 const { 
-  MoltbookAuth, 
+  MoltgramAuth, 
   authMiddleware, 
   optionalAuth,
   ErrorCodes,
@@ -57,20 +57,20 @@ function assertEqual(actual, expected, message) {
 // Tests
 // ============================================
 
-console.log('\n🦞 @moltbook/auth Test Suite\n');
+console.log('\n🦞 @moltgram/auth Test Suite\n');
 console.log('═'.repeat(50));
 
-// MoltbookAuth Class Tests
-describe('MoltbookAuth', () => {
+// MoltgramAuth Class Tests
+describe('MoltgramAuth', () => {
   test('creates instance with default options', () => {
-    const auth = new MoltbookAuth();
-    assertEqual(auth.tokenPrefix, 'moltbook_');
-    assertEqual(auth.claimPrefix, 'moltbook_claim_');
+    const auth = new MoltgramAuth();
+    assertEqual(auth.tokenPrefix, 'moltgram_');
+    assertEqual(auth.claimPrefix, 'moltgram_claim_');
     assertEqual(auth.tokenLength, 32);
   });
 
   test('creates instance with custom options', () => {
-    const auth = new MoltbookAuth({
+    const auth = new MoltgramAuth({
       tokenPrefix: 'custom_',
       claimPrefix: 'custom_claim_',
       tokenLength: 16
@@ -83,16 +83,16 @@ describe('MoltbookAuth', () => {
 
 // API Key Generation Tests
 describe('API Key Generation', () => {
-  const auth = new MoltbookAuth();
+  const auth = new MoltgramAuth();
 
   test('generates API key with correct prefix', () => {
     const apiKey = auth.generateApiKey();
-    assert(apiKey.startsWith('moltbook_'), 'Should start with moltbook_');
+    assert(apiKey.startsWith('moltgram_'), 'Should start with moltgram_');
   });
 
   test('generates API key with correct length', () => {
     const apiKey = auth.generateApiKey();
-    // 'moltbook_' (9) + 64 hex chars = 73
+    // 'moltgram_' (9) + 64 hex chars = 73
     assertEqual(apiKey.length, 73);
   });
 
@@ -107,23 +107,23 @@ describe('API Key Generation', () => {
 
 // Claim Token Tests
 describe('Claim Token Generation', () => {
-  const auth = new MoltbookAuth();
+  const auth = new MoltgramAuth();
 
   test('generates claim token with correct prefix', () => {
     const token = auth.generateClaimToken();
-    assert(token.startsWith('moltbook_claim_'), 'Should start with moltbook_claim_');
+    assert(token.startsWith('moltgram_claim_'), 'Should start with moltgram_claim_');
   });
 
   test('generates claim token with correct length', () => {
     const token = auth.generateClaimToken();
-    // 'moltbook_claim_' (15) + 64 hex chars = 79
+    // 'moltgram_claim_' (15) + 64 hex chars = 79
     assertEqual(token.length, 79);
   });
 });
 
 // Verification Code Tests
 describe('Verification Code Generation', () => {
-  const auth = new MoltbookAuth();
+  const auth = new MoltgramAuth();
 
   test('generates verification code in correct format', () => {
     const code = auth.generateVerificationCode();
@@ -141,7 +141,7 @@ describe('Verification Code Generation', () => {
 
 // Validation Tests
 describe('Token Validation', () => {
-  const auth = new MoltbookAuth();
+  const auth = new MoltgramAuth();
 
   test('validates correct API key', () => {
     const apiKey = auth.generateApiKey();
@@ -153,7 +153,7 @@ describe('Token Validation', () => {
   });
 
   test('rejects short API key', () => {
-    assert(!auth.validateApiKey('moltbook_abc'), 'Should reject short key');
+    assert(!auth.validateApiKey('moltgram_abc'), 'Should reject short key');
   });
 
   test('rejects null', () => {
@@ -179,16 +179,16 @@ describe('Token Validation', () => {
 
 // Token Extraction Tests
 describe('Token Extraction', () => {
-  const auth = new MoltbookAuth();
+  const auth = new MoltgramAuth();
 
   test('extracts token from Bearer header', () => {
-    const token = auth.extractToken('Bearer moltbook_abc123');
-    assertEqual(token, 'moltbook_abc123');
+    const token = auth.extractToken('Bearer moltgram_abc123');
+    assertEqual(token, 'moltgram_abc123');
   });
 
   test('handles lowercase bearer', () => {
-    const token = auth.extractToken('bearer moltbook_abc123');
-    assertEqual(token, 'moltbook_abc123');
+    const token = auth.extractToken('bearer moltgram_abc123');
+    assertEqual(token, 'moltgram_abc123');
   });
 
   test('rejects Basic auth', () => {
@@ -210,7 +210,7 @@ describe('Token Extraction', () => {
 
 // Token Comparison Tests
 describe('Token Comparison', () => {
-  const auth = new MoltbookAuth();
+  const auth = new MoltgramAuth();
 
   test('returns true for equal tokens', () => {
     const token = auth.generateApiKey();
@@ -235,7 +235,7 @@ describe('Token Comparison', () => {
 
 // Registration Helper Tests
 describe('Registration Helper', () => {
-  const auth = new MoltbookAuth();
+  const auth = new MoltgramAuth();
 
   test('creates complete registration object', () => {
     const reg = auth.createRegistration('TestAgent', 'A test agent');
@@ -253,7 +253,7 @@ describe('Registration Helper', () => {
 describe('Convenience Exports', () => {
   test('generateApiKey works', () => {
     const key = generateApiKey();
-    assert(key.startsWith('moltbook_'), 'Should generate valid key');
+    assert(key.startsWith('moltgram_'), 'Should generate valid key');
   });
 
   test('validateApiKey works', () => {
@@ -262,8 +262,8 @@ describe('Convenience Exports', () => {
   });
 
   test('extractToken works', () => {
-    const token = extractToken('Bearer moltbook_test');
-    assertEqual(token, 'moltbook_test');
+    const token = extractToken('Bearer moltgram_test');
+    assertEqual(token, 'moltgram_test');
   });
 });
 
@@ -283,20 +283,20 @@ describe('Utils', () => {
   });
 
   test('maskToken hides middle', () => {
-    const masked = utils.maskToken('moltbook_abcdefghijklmnop');
+    const masked = utils.maskToken('moltgram_abcdefghijklmnop');
     assert(masked.includes('...'), 'Should have ellipsis');
     assert(!masked.includes('abcdefghijklmnop'), 'Should not show full token');
   });
 
   test('looksLikeToken identifies tokens', () => {
-    assert(utils.looksLikeToken('moltbook_abc'), 'Should identify API key');
-    assert(utils.looksLikeToken('moltbook_claim_abc'), 'Should identify claim token');
+    assert(utils.looksLikeToken('moltgram_abc'), 'Should identify API key');
+    assert(utils.looksLikeToken('moltgram_claim_abc'), 'Should identify claim token');
     assert(!utils.looksLikeToken('random_string'), 'Should reject random string');
   });
 
   test('parseClaimUrl extracts token', () => {
-    const token = utils.parseClaimUrl('https://www.moltbook.com/claim/moltbook_claim_abc123');
-    assertEqual(token, 'moltbook_claim_abc123');
+    const token = utils.parseClaimUrl('https://www.moltgram.com/claim/moltgram_claim_abc123');
+    assertEqual(token, 'moltgram_claim_abc123');
   });
 
   test('shortId generates ID', () => {
@@ -308,13 +308,13 @@ describe('Utils', () => {
 // Middleware Tests (Mock)
 describe('Middleware', () => {
   test('authMiddleware is a function', () => {
-    const auth = new MoltbookAuth();
+    const auth = new MoltgramAuth();
     const middleware = authMiddleware(auth);
     assertEqual(typeof middleware, 'function');
   });
 
   test('optionalAuth is a function', () => {
-    const auth = new MoltbookAuth();
+    const auth = new MoltgramAuth();
     const middleware = optionalAuth(auth);
     assertEqual(typeof middleware, 'function');
   });
